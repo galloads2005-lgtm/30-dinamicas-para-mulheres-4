@@ -1,15 +1,54 @@
-// Função para ativar o som do vídeo principal
-function ativarSom() {
+// Controle do vídeo principal
+function toggleVideo() {
     var video = document.getElementById('hero-video');
-    var overlay = document.getElementById('sound-overlay');
-    if (video) {
-        video.muted = false;
+    var overlay = document.getElementById('play-overlay');
+    var icon = document.getElementById('play-icon');
+    if (!video) return;
+
+    if (video.paused || video.ended) {
         video.play();
-    }
-    if (overlay) {
-        overlay.style.display = 'none';
+        overlay.style.background = 'transparent';
+        overlay.style.pointerEvents = 'none';
+        icon.parentElement.parentElement.style.display = 'none';
+    } else {
+        video.pause();
+        overlay.style.background = 'rgba(0,0,0,0.25)';
+        overlay.style.pointerEvents = 'auto';
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+        icon.parentElement.parentElement.style.display = 'flex';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var video = document.getElementById('hero-video');
+    var overlay = document.getElementById('play-overlay');
+    var icon = document.getElementById('play-icon');
+    if (!video) return;
+
+    video.addEventListener('ended', function() {
+        overlay.style.background = 'rgba(0,0,0,0.25)';
+        overlay.style.pointerEvents = 'auto';
+        overlay.style.display = 'flex';
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+        icon.parentElement.parentElement.style.display = 'flex';
+    });
+
+    video.addEventListener('play', function() {
+        overlay.style.background = 'transparent';
+        overlay.style.pointerEvents = 'none';
+        icon.parentElement.parentElement.style.display = 'none';
+    });
+
+    video.addEventListener('pause', function() {
+        if (!video.ended) {
+            overlay.style.background = 'rgba(0,0,0,0.25)';
+            overlay.style.pointerEvents = 'auto';
+            icon.parentElement.parentElement.style.display = 'flex';
+        }
+    });
+});
 
 // Função para scroll suave até os planos
 function scrollToPlans() {

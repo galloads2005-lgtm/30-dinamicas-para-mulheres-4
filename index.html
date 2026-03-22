@@ -53,12 +53,10 @@
                 
                 <div class="video-wrapper">
                     <div style="position:relative;padding-top:177.77777777777777%;">
-                        <video id="hero-video" src="video-otimizado.mp4" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;object-fit:cover;" autoplay muted playsinline loop></video>
-                        <div id="sound-overlay" onclick="ativarSom()" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
-                            <div style="background:#e53935;border:2px solid #fff;border-radius:14px;padding:18px 28px;text-align:center;max-width:75%;color:#fff;font-family:inherit;">
-                                <p style="font-weight:700;font-size:15px;margin:0 0 10px 0;">Clique aqui</p>
-                                <i class="fas fa-volume-mute" style="font-size:36px;display:block;margin-bottom:10px;"></i>
-                                <p style="font-weight:700;font-size:15px;margin:0;">para ativar o som</p>
+                        <video id="hero-video" src="video-otimizado.mp4" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;object-fit:cover;" playsinline></video>
+                        <div id="play-overlay" onclick="toggleVideo()" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:12px;background:rgba(0,0,0,0.25);">
+                            <div style="width:72px;height:72px;background:rgba(255,255,255,0.92);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                                <i id="play-icon" class="fas fa-play" style="font-size:28px;color:#e53935;margin-left:5px;"></i>
                             </div>
                         </div>
                     </div>
