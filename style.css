@@ -10,6 +10,8 @@ body {
     line-height: 1.6;
     color: #333;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
 }
 
 .container {
@@ -2161,6 +2163,8 @@ html {
 .hero-cta,
 .guarantee-cta {
     will-change: transform;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .animate-on-scroll {
@@ -2174,4 +2178,47 @@ html {
 * {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeSpeed;
+}
+
+/* === Otimizações mobile === */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .video-wrapper {
+        max-width: 100%;
+        margin: 0 0 24px 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .hero-title {
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    }
+
+    .section-title {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    a, button {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .cta-button {
+        font-size: clamp(0.9rem, 4vw, 1rem);
+        padding: 14px 20px;
+        width: 100%;
+        max-width: 380px;
+    }
 }

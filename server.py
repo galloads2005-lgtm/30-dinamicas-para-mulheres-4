@@ -5,11 +5,19 @@ import threading
 
 PORT = 5000
 
+CACHE_EXTENSIONS = {'.css', '.js', '.jpg', '.jpeg', '.png', '.gif', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.mp4', '.mp3'}
+CACHE_MAX_AGE = 86400  # 1 dia para assets estáticos
+
 class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
-        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-        self.send_header('Pragma', 'no-cache')
-        self.send_header('Expires', '0')
+        path = self.translate_path(self.path)
+        ext = os.path.splitext(path)[1].lower()
+
+        if ext in CACHE_EXTENSIONS:
+            self.send_header('Cache-Control', f'public, max-age={CACHE_MAX_AGE}')
+        else:
+            self.send_header('Cache-Control', 'no-cache, must-revalidate')
+
         self.send_header('Accept-Ranges', 'bytes')
         super().end_headers()
 
