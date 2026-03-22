@@ -1,3 +1,16 @@
+// Função para ativar o som do vídeo principal
+function ativarSom() {
+    var video = document.getElementById('hero-video');
+    var overlay = document.getElementById('sound-overlay');
+    if (video) {
+        video.muted = false;
+        video.play();
+    }
+    if (overlay) {
+        overlay.style.display = 'none';
+    }
+}
+
 // Função para scroll suave até os planos
 function scrollToPlans() {
     document.getElementById('plans').scrollIntoView({
