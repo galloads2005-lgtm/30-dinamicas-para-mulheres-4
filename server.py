@@ -1,6 +1,7 @@
 import http.server
 import socketserver
 import os
+import threading
 
 PORT = 5000
 
@@ -15,7 +16,6 @@ class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         path = self.translate_path(self.path)
 
-        # For directories or non-video files, use the default handler
         if os.path.isdir(path) or not os.path.isfile(path):
             super().do_GET()
             return
@@ -25,7 +25,6 @@ class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
             super().do_GET()
             return
 
-        # Handle Range requests (needed for video streaming)
         file_size = os.path.getsize(path)
         byte_range = range_header.strip().replace('bytes=', '')
         parts = byte_range.split('-')
@@ -44,7 +43,7 @@ class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
             f.seek(start)
             remaining = length
             while remaining > 0:
-                chunk_size = min(65536, remaining)
+                chunk_size = min(524288, remaining)
                 data = f.read(chunk_size)
                 if not data:
                     break
@@ -54,7 +53,15 @@ class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
                     break
                 remaining -= len(data)
 
-socketserver.TCPServer.allow_reuse_address = True
-with socketserver.TCPServer(("0.0.0.0", PORT), RangeRequestHandler) as httpd:
+    def log_message(self, format, *args):
+        super().log_message(format, *args)
+
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
+with ThreadedTCPServer(("0.0.0.0", PORT), RangeRequestHandler) as httpd:
     print(f"Serving at port {PORT}")
     httpd.serve_forever()
