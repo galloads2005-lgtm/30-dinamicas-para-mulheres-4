@@ -170,16 +170,8 @@ function animateOnScroll() {
     });
 }
 
-// Efeito de parallax suave no hero
-function parallaxEffect() {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-    });
-}
+// Efeito de parallax removido para melhorar performance de scroll
+function parallaxEffect() {}
 
 // Adiciona efeito de click nos botões de plano
 function addPlanButtonEffects() {
@@ -442,28 +434,29 @@ function initializeApp() {
 
 // Função para tracking de eventos (simulado)
 function trackEvents() {
-    // Track scroll depth
+    // Track scroll depth (passive para não bloquear scroll)
     let maxScroll = 0;
+    let rafPending = false;
     window.addEventListener('scroll', () => {
-        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        if (scrollPercent > maxScroll) {
-            maxScroll = scrollPercent;
-            
-            // Marcos importantes de scroll
-            if (maxScroll > 25 && !localStorage.getItem('scroll_25')) {
-                console.log('Usuário scrollou 25% da página');
-                localStorage.setItem('scroll_25', 'true');
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+            rafPending = false;
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                if (maxScroll > 25 && !localStorage.getItem('scroll_25')) {
+                    localStorage.setItem('scroll_25', 'true');
+                }
+                if (maxScroll > 50 && !localStorage.getItem('scroll_50')) {
+                    localStorage.setItem('scroll_50', 'true');
+                }
+                if (maxScroll > 75 && !localStorage.getItem('scroll_75')) {
+                    localStorage.setItem('scroll_75', 'true');
+                }
             }
-            if (maxScroll > 50 && !localStorage.getItem('scroll_50')) {
-                console.log('Usuário scrollou 50% da página');
-                localStorage.setItem('scroll_50', 'true');
-            }
-            if (maxScroll > 75 && !localStorage.getItem('scroll_75')) {
-                console.log('Usuário scrollou 75% da página');
-                localStorage.setItem('scroll_75', 'true');
-            }
-        }
-    });
+        });
+    }, { passive: true });
     
     // Track time on page
     const startTime = Date.now();

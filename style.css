@@ -2146,3 +2146,32 @@ html {
         font-size: 1.8rem;
     }
 }
+
+/* === Otimizações de performance de scroll === */
+.benefit-card,
+.bonus-card,
+.testimonial-card,
+.plan-card,
+.exclusive-card {
+    contain: layout style;
+    will-change: auto;
+}
+
+.cta-button,
+.hero-cta,
+.guarantee-cta {
+    will-change: transform;
+}
+
+.animate-on-scroll {
+    will-change: transform, opacity;
+}
+
+.animate-on-scroll.visible {
+    will-change: auto;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
+}
