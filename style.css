@@ -451,6 +451,26 @@ section {
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
+.exclusive-emoji {
+    font-size: 2.5rem;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    line-height: 1;
+}
+
+.exclusive-card:hover .exclusive-emoji {
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+}
+
 .exclusive-icon {
     font-size: 2.2rem;
     color: white;
