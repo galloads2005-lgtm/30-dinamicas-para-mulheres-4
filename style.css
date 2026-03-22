@@ -586,6 +586,19 @@ section {
     transform: scale(1.05);
 }
 
+.bonus-image--tall img {
+    height: 360px;
+    object-fit: contain;
+}
+
+.bonus-name {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #888;
+    margin-top: 2px;
+}
+
 .bonus-card h3 {
     font-size: 1.3rem;
     font-weight: 700;
